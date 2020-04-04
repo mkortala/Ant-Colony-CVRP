@@ -1,4 +1,4 @@
-from data_reader import read_data
+from src.data_reader import read_data
 
 path = './data_set_1.xlsx'
 
