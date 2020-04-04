@@ -10,6 +10,7 @@ class Ant:
     def __init__(self):
         print("ant")
 
+
 class GreedyAnt:
     def __init__(self, capacity, home_city):
         self.capacity = capacity
@@ -28,5 +29,5 @@ class GreedyAnt:
         self.traveled_distance = 0
         self.home_city = home_city
 
-    def addDistance(self, distance):
+    def add_distance(self, distance):
         self.traveled_distance = self.traveled_distance + distance
