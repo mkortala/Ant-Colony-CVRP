@@ -4,22 +4,22 @@ from src.ants import GreedyAnt
 
 class GreedyAlgorithm:
 
-    def __init__(self, capacity, instance):
+    def __init__(self, capacity, instance, number_of_ants):
         self.instance = instance
         self.actual_demands = instance.demands
         self.ant = GreedyAnt(capacity, np.where(instance.demands == 0)[0][0])
         self.cities_to_visit = np.where(instance.demands != 0)[0]
 
     def run(self):
-        while True:
+        while self.cities_to_visit.size > 0:
             closest_city = self.find_closest()
             if closest_city == -1:
-                break
-            self.move_to_city(closest_city)
-
+                self.move_to_city(self.ant.home_city)
+            else:
+                self.move_to_city(closest_city)
         print(self.ant.traveled_distance)
 
-    def reset(self, capacity, instance):
+    def reset(self, capacity, instance, number_of_ants):
         self.ant.reset(capacity, np.where(instance.demands == 0)[0][0])
         self.instance = instance
         self.actual_demands = instance.demands
@@ -29,7 +29,7 @@ class GreedyAlgorithm:
         closest_city = -1
         closest_value = -1
         for x in self.cities_to_visit:
-            if x != self.ant.current_city:
+            if x != self.ant.current_city and self.actual_demands[x] <= self.ant.current_load:
                 if closest_value > self.instance.costs[self.ant.current_city, x] or closest_value == -1:
                     closest_city = x
                     closest_value = self.instance.costs[self.ant.current_city, x]
