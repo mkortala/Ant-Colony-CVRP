@@ -21,7 +21,7 @@ def read_data(path):
 def calculate_costs(coordinates, n):
     costs = np.zeros((n, n))
     for i in range(0, n):
-        for j in range(0, n-i):
+        for j in range(i, n):
             a = coordinates.iloc[i]
             b = coordinates.iloc[j]
             distance = np.sqrt((a[0]-b[0])**2 + (a[1] - b[1])**2)
