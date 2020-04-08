@@ -6,7 +6,9 @@ class Map:
 
     def __init__(self, demands, costs):
         self.costs = costs
-        self.demands = demands
+        self.demands = demands.reshape(32,)
+        self.pheromones = np.ones(self.costs.shape)
+        self.city_count = len(self.demands)
 
 
 def read_data(path):
@@ -27,3 +29,4 @@ def calculate_costs(coordinates, n):
             distance = np.sqrt((a[0]-b[0])**2 + (a[1] - b[1])**2)
             costs[i][j] = costs[j][i] = distance
     return costs
+
