@@ -7,8 +7,13 @@ class Map:
     def __init__(self, demands, costs):
         self.costs = costs
         self.demands = demands.reshape(32,)
-        self.pheromones = np.ones(self.costs.shape)
+        self.pheromones = np.ones(self.costs.shape) - np.eye(len(self.demands))*0.5
         self.city_count = len(self.demands)
+        self.u = np.zeros(self.costs.shape)
+        self.start = np.argwhere(self.demands == 0)[0][0]
+        for i in range(0,self.costs.shape[0]):
+            for j in range(i, self.costs.shape[1]):
+                self.u[i, j] = self.u[j, i] = self.costs[i, self.start] + self.costs[self.start, j] - self.costs[i, j]
 
 
 def read_data(path):
