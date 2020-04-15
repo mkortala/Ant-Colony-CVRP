@@ -21,10 +21,10 @@ class AntColonyBasic:
         self.is_2_opt_enabled = False
         self.best_path = []
 
-    def run(self):
+    def run(self,):
         self.create_colony()
         for i in range(self.iterations):
-            print('Interation %d' % i)
+            # print('Interation %d' % i)
             for ant in self.ants:
                 while ant.can_move():
                     ant.move()
@@ -47,8 +47,10 @@ class AntColonyBasic:
             ant.set_world(self.world, self.capacity, self.vehicle_count)
 
     def restart(self):
-        self.best_solution = 0
+        self.best_solution = float('infinity')
+        self.best_path = []
         self.L_avg = 0
+        self.world.pheromones = np.ones(self.world.costs.shape) - np.eye(len(self.world.demands))*0.5
         self.refresh()
 
     def create_colony(self):
@@ -132,12 +134,13 @@ class Ant:
             self.get_new_vehicle()
 
     def choose_destination(self):
-        if self.first_run:
-            self.first_run = False
-            return np.random.choice(self.available)
         available = np.array(self.available)
         available_demands = np.array([self.world.demands[i] for i in self.available])
         available = available[available_demands <= self.capacity_left]
+        if self.first_run:
+            self.first_run = False
+            return np.random.choice(available)
+
         if len(available) == 0:
             return self.start
         d = []
@@ -147,7 +150,7 @@ class Ant:
             1 / self.world.costs[self.current_city, i], self.beta) for i in available]
         prob_sum = np.divide(probability, np.sum(probability))
         s = np.sum(prob_sum)
-        idx = np.argmax(prob_sum)
+        idx = np.argwhere(available == np.random.choice(available, p=prob_sum))[0][0]  #np.argmax(prob_sum)
 
         return available[idx]
 
@@ -195,7 +198,7 @@ class Ant:
                 for j in range(i+3, len(path)-1):
                     # if path[i] == self.start or path[j] == self.start:
                     #     continue
-                    improved, old, new = self.check_2_opt_improvement(path, i, j)
+                    improved, old, new = self.check_2_opt_improvement(self.paths[idx], i, j)
                     if improved:
                         self.make_2_opt_change(idx, i, j, old, new)
 

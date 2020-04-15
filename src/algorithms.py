@@ -17,7 +17,7 @@ class GreedyAlgorithm:
                 self.move_to_city(self.ant.home_city)
             else:
                 self.move_to_city(closest_city)
-        print(self.ant.traveled_distance)
+        # print(self.ant.traveled_distance)
 
     def reset(self, capacity, instance, number_of_ants):
         self.ant.reset(capacity, np.where(instance.demands == 0)[0][0])
