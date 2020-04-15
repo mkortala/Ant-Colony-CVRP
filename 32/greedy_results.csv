@@ -1,0 +1,5 @@
+,exp_name,alg_name,filename,iterations,ant_number,capacity,p_factor,solution,rpd
+0,cities,greedy,../data/instances/A-n32-k5.xlsx,,,,,1064.656130454636,35.79797582329541
+1,cities,greedy,../data/instances/A-n44-k6.xlsx,,,,,1250.2580365202564,33.43202097334647
+2,cities,greedy,../data/instances/A-n54-k7.xlsx,,,,,1335.2352967911488,14.416049425119864
+3,all,greedy,../data/instances/A-n32-k5.xlsx,,,,,1064.656130454636,35.79797582329541
